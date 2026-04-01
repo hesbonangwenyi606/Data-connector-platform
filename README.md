@@ -1,5 +1,7 @@
 # Data Connector Platform
+
 A web app that lets you connect to different databases, pull out data, edit it, and save it — all from a clean browser interface.
+
 ---
 
 ## What does it do?
@@ -194,6 +196,4 @@ Access tokens expire after 1 day. When that happens, the app silently gets a new
 
 **Datetime and decimal values are handled automatically**
 Databases return values like `2024-01-15 10:30:00` or `85000.00` as special Python types that can't be stored as plain text. The connector layer converts them all to standard strings and numbers before saving, so nothing breaks when the data hits the grid or the export files.
-#   d a t a - c o n n e c t o r - p l a t f o r m 
- 
- 
+#
