@@ -177,26 +177,27 @@ docker compose down -v
 
 ---
 
-## Why things were built the way they were
+Why I built it this way 
 
-**One interface for all database types**
-Each database (Postgres, MySQL, etc.) works differently under the hood. Rather than writing messy `if db_type == 'mysql'` checks everywhere, each database has its own self-contained connector class. They all speak the same language to the rest of the app. Adding a new database type in the future means writing one new class and registering it in one place — nothing else changes.
+1. One system for all databases
+Instead of writing separate messy code for each database (like MySQL or Postgres), I created one standard way to connect to all of them. Each database has its own small “connector,” but they all work the same way in the app. This makes it easy to add new databases later without changing much code.
 
-**Files are always created in pairs**
-Every time you submit data, the app writes both a JSON file and a CSV file. JSON is great for machines to read; CSV is great for opening in Excel. You get both without having to choose.
+2. Always export in two formats
+Whenever data is saved, the system creates both a JSON file and a CSV file.
 
-**If the file write fails, your data is still saved**
-Saving to the database happens first. If writing the file to disk fails for any reason (full disk, permissions, etc.), the database record is kept safe and you get a warning. You never lose data because of a file system problem.
+JSON is good for apps and systems
+CSV is good for Excel and reporting
 
-**Passwords are never sent back to you**
-When you create a connection, the password is stored but never returned by the API — not in lists, not in detail views. You can update it, but you can't read it back out.
+So users don’t have to choose — they get both.
 
-**You stay logged in automatically**
-Access tokens expire after 1 day. When that happens, the app silently gets a new one in the background using your refresh token (valid for 7 days). You won't notice — no sudden logouts mid-session.
+3. Data is safe even if file saving fails
+First, data is saved in the database. Then files are created. If file saving fails (like storage issues), the database still keeps the data safe. This prevents data loss.
 
-**Datetime and decimal values are handled automatically**
-Databases return values like `2024-01-15 10:30:00` or `85000.00` as special Python types that can't be stored as plain text. The connector layer converts them all to standard strings and numbers before saving, so nothing breaks when the data hits the grid or the export files.
-#
+4. Passwords are kept hidden
+Passwords are stored securely but never shown back in API responses. Even when you view or list connections, the password is never exposed.
 
+5. You stay logged in without interruptions
+Login tokens last 1 day. When they expire, the system automatically refreshes them in the background using a refresh token. This means you don’t get logged out suddenly.
 
-
+6. Clean handling of dates and numbers
+Some database values (like dates or decimals) are converted into simple text or numbers so they don’t break when exporting or displaying in tables or files.
