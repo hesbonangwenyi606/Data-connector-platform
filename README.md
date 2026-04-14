@@ -4,6 +4,37 @@ A web app that lets you connect to different databases, pull out data, edit it, 
 
 ---
 
+## Screenshots
+
+### Login
+![Login](docs/screenshots/login.png)
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Connections
+![Connections](docs/screenshots/connections.png)
+
+### Extract — Configure
+![Extract Configure](docs/screenshots/extract-configure.png)
+
+### Extract — Review & Edit
+![Extract Review](docs/screenshots/extract-review.png)
+
+### Extract — Complete
+![Extract Complete](docs/screenshots/extract-complete.png)
+
+### Files
+![Files](docs/screenshots/files.png)
+
+### Django Admin Panel
+![Django Admin](docs/screenshots/admin-panel.png)
+
+### Django Admin — Users
+![Django Admin Users](docs/screenshots/admin-users.png)
+
+---
+
 ## What does it do?
 
 1. You add a database connection (PostgreSQL, MySQL, MongoDB, or ClickHouse) by entering the host, port, and credentials
@@ -197,3 +228,6 @@ Access tokens expire after 1 day. When that happens, the app silently gets a new
 **Datetime and decimal values are handled automatically**
 Databases return values like `2024-01-15 10:30:00` or `85000.00` as special Python types that can't be stored as plain text. The connector layer converts them all to standard strings and numbers before saving, so nothing breaks when the data hits the grid or the export files.
 #
+
+
+

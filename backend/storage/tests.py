@@ -157,7 +157,7 @@ class StoredFilePermissionsTestCase(APITestCase):
 
     def test_other_cannot_retrieve(self):
         resp = self._retrieve(self.other_token)
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_shared_can_retrieve(self):
         resp = self._retrieve(self.shared_token)
@@ -166,7 +166,7 @@ class StoredFilePermissionsTestCase(APITestCase):
     def test_other_cannot_delete(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.other_token}')
         resp = self.client.delete(reverse('storedfile-detail', kwargs={'pk': self.stored_file.pk}))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_owner_can_delete(self):
         sf2 = StoredFile.objects.create(
@@ -198,7 +198,7 @@ class ShareFileTestCase(APITestCase):
 
     def test_owner_can_share(self):
         url = reverse('storedfile-share', kwargs={'pk': self.sf.pk})
-        resp = self.client.post(url, {'shared_with': [self.target.pk]}, format='json')
+        resp = self.client.post(url, {'username': self.target.username}, format='json')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         self.sf.refresh_from_db()
         self.assertIn(self.target, self.sf.shared_with.all())

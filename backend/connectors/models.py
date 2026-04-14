@@ -16,7 +16,7 @@ class DatabaseConnection(models.Model):
     database = models.CharField(max_length=255)
     username = models.CharField(max_length=255)
     # NOTE: Store encrypted in production (e.g. using django-cryptography or Vault)
-    password = models.CharField(max_length=255)
+    password = models.CharField(max_length=255, blank=True, default='')
     created_by = models.ForeignKey(
         'accounts.User',
         on_delete=models.CASCADE,

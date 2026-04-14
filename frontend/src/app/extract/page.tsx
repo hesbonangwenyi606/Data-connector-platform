@@ -12,7 +12,7 @@ import {
 import Layout from '@/components/Layout'
 import DataGrid from '@/components/DataGrid'
 import Spinner, { InlineSpinner } from '@/components/Spinner'
-import { connectorsAPI, extractionsAPI } from '@/lib/api'
+import { connectorsAPI, extractionsAPI, storageAPI } from '@/lib/api'
 import { cn, extractErrorMessage, formatBytes } from '@/lib/utils'
 import type { DatabaseConnection, DataRecord, ExtractionBatch, StoredFile } from '@/types'
 
@@ -122,8 +122,11 @@ export default function ExtractPage() {
         .filter((r) => r.is_modified)
         .map((r) => ({ row_index: r.row_index, data: r.data }))
 
-      const file = await extractionsAPI.submit(batch.id, modifiedRecords)
-      setSubmittedFile(file)
+      await extractionsAPI.submit(batch.id, modifiedRecords)
+      // Fetch the file that was just created for this batch
+      const files = await storageAPI.list()
+      const batchFile = files.find((f) => f.batch === batch.id && f.file_format === 'json') ?? files[0] ?? null
+      setSubmittedFile(batchFile)
       setStep('done')
     } catch (err) {
       setSubmitError(extractErrorMessage(err))

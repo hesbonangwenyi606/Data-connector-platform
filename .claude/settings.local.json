@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker version:*)",
+      "Bash(sc query:*)",
+      "Read(//c/Program Files/Docker/Docker/**)",
+      "Bash(docker compose:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Admin\\clients\\Data-connector-platform\\docs"
+    ]
+  }
+}

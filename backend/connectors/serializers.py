@@ -10,7 +10,7 @@ class DatabaseConnectionSerializer(serializers.ModelSerializer):
     """
     created_by = serializers.PrimaryKeyRelatedField(read_only=True)
     created_by_username = serializers.SerializerMethodField(read_only=True)
-    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'}, allow_blank=True, default='')
 
     class Meta:
         model = DatabaseConnection
